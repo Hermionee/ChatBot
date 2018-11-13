@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Prerequisites
 For the JavaScript SDK to work your APIs need to support CORS. The Amazon API Gateway developer guide explains how to [setup CORS for an endpoint]().
 The generated SDK depends on third-party libraries. Include all of the scripts in your webpage
@@ -77,6 +76,3 @@ var apigClient = apigClientFactory.newClient({
 
 
 
-=======
-# ChatBot
->>>>>>> 4d3e7a84dcdc1bccd3a7cf65a1b234a9be54a8d9
