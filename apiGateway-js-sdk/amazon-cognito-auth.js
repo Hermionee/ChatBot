@@ -1504,6 +1504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var boundOnSuccess = this.onSuccessRefreshToken.bind(this);
 	      var boundOnFailure = this.onFailure.bind(this);
 	      this.makePOSTRequest(header, body, url, boundOnSuccess, boundOnFailure);
+	      alert("refresh token");
 	    }
 
 	    /**
@@ -1528,11 +1529,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // set header
 	      for (var key in header) {
 	        xhr.setRequestHeader(key, header[key]);
-	        console.log(key);
+	        console.log( header[key]);
 	      }
 	      for (var _key in body) {
 	        bodyString = bodyString.concat(_key, this.getCognitoConstants().EQUALSIGN, body[_key], this.getCognitoConstants().AMPERSAND);
-	      	console.log(_key);
+	      	console.log( body[_key]);
 	      }
 	      bodyString = bodyString.substring(0, bodyString.length - 1);
 	      xhr.send(bodyString);
@@ -1540,8 +1541,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (xhr.readyState === 4) {
 	          if (xhr.status === 200) {
 	            onSuccess(xhr.responseText);
+	            console.log("token " + xhr.responseText);
 	          } else {
 	            onFailure(xhr.responseText);
+	            alert("erro r" + xhr.responseText)
 	          }
 	        }
 	      };

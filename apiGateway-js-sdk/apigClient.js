@@ -71,6 +71,7 @@ apigClientFactory.newClient = function (config) {
     var authType = 'NONE';
     if (sigV4ClientConfig.accessKey !== undefined && sigV4ClientConfig.accessKey !== '' && sigV4ClientConfig.secretKey !== undefined && sigV4ClientConfig.secretKey !== '') {
         authType = 'AWS_IAM';
+        alert(authType);
     }
 
     var simpleHttpClientConfig = {

@@ -1,5 +1,3 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
@@ -26,20 +24,8 @@
     <script type="text/javascript" src="apiGateway-js-sdk/apigClient.js"></script>
     <script type="text/javascript" src="apiGateway-js-sdk/aws-cognito-sdk.js"></script>
     <script type="text/javascript" src="apiGateway-js-sdk/amazon-cognito-auth.js"></script>
-    <!-- <script type="text/javascript" src="apiGateway-js-sdk/amazon-cognito-auth.min.js"></script> -->
-    <!-- <script type="text/javascript" src="apiGateway-js-sdk/amazon-cognito-identity.min.js"></script> -->
     <script type="text/javascript" src="apiGateway-js-sdk/aws-sdk-2.349.0.min.js"></script> 
-    <script>
-
-AWS.config.update({
-  region: 'us-east-1',
-  credentials: new AWS.CognitoIdentityCredentials({
-    AccountId: '267836282592 ', // your AWS account ID
-    RoleArn: 'arn:aws:iam::267836282592:role/Cognito_ChatbotUnauth_Role',
-    IdentityPoolId: 'us-east-1:6d97c88a-c322-4397-b87c-94d628ea8a5d'
-  })
-});
-</script>
+    
 <script src="https://use.typekit.net/hoy3lrg.js"></script>
 <script>try{
 Typekit.load(
@@ -889,6 +875,17 @@ $("#status-options ul li").click(function() {
 	$("#status-options").removeClass("active");
 });
 
+$('.submit').click(function() {
+  newMessage();
+});
+
+$(window).on('keydown', function(e) {
+  if (e.which == 13) {
+    newMessage();
+    return false;
+  }
+});
+
 function newMessage() {
   
 	var message = $(".message-input input").val();
@@ -925,61 +922,52 @@ apigClient.chatbotPost(params, body, additionalParams)
       }).catch( function(result){
         alert("Sorry! Something goes wrong!")
       });
-
-  
 }
-
-$('.submit').click(function() {
-  newMessage();
-});
-
-$(window).on('keydown', function(e) {
-  if (e.which == 13) {
-    newMessage();
-    return false;
-  }
-});
 </script>
 
 <script type="text/javascript">
   function onLoad() {
-  // Initiatlize CognitoAuth object
-    var auth = initCognitoSDK();
-    var curUrl = window.location.href;
-    auth.parseCognitoWebResponse(curUrl);
-    auth.getSession();
-    // set the Amazon Cognito region
-// initialize the Credentials object with our parameters
-AWS.config.region = 'us-east-1';
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'us-east-1:6d97c88a-c322-4397-b87c-94d628ea8a5d'
-});
-AWS.config.credentials.get(function(err){
-    var accessKeyId = AWS.config.credentials.accessKeyId;
-    var secretAccessKey = AWS.config.credentials.secretAccessKey;
-    var sessionToken = AWS.config.credentials.sessionToken;
-    console.log(accessKeyId)
-    console.log(secretAccessKey)
-    console.log(sessionToken)
-    if (err) {
-        alert(err);
-    }
-});
-
+      // Initiatlize CognitoAuth object
+      var auth = initCognitoSDK();
+      var curUrl = window.location.href;
+      auth.parseCognitoWebResponse(curUrl);
   }
 </script>
 <script type="text/javascript">
-function initCognitoSDK(){
-  
+  function userLoggedIn(providerName, token) {
+      AWS.config.region = 'us-east-1';
+      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: 'us-east-1:6d97c88a-c322-4397-b87c-94d628ea8a5d'
+      });
+AWS.config.credentials.params.Logins = AWS.config.credentials.params.Logins || {};
+AWS.config.credentials.params.Logins[providerName] = token;
+ AWS.config.credentials.get(function (err) {
+          var accessKeyId = AWS.config.credentials.accessKeyId;
+          var secretAccessKey = AWS.config.credentials.secretAccessKey;
+          var sessionToken = AWS.config.credentials.sessionToken;
+          // console.log(accessKeyId);
+          // console.log(secretAccessKey);
+          // console.log(sessionToken);
+          if (err) {
+              alert(err);
+          }
+      });
+            // alert(AWS.config.credentials.params.Logins[providerName]);
+// Expire credentials to refresh them on the next request
+AWS.config.credentials.expired = true;
 
+}
+</script>
+<script type="text/javascript">
+function initCognitoSDK(){
 var authData = {
-    ClientId : '6mr9du8ijjvqrckn02er0nnc5f', // Your client id here
-    AppWebDomain : 'manhanttenduo.auth.us-east-1.amazoncognito.com',
+    ClientId : '1vtv7u8tn3mdgabsl8ud2d1sr2', // Your client id here
+    AppWebDomain : 'hahahatest.auth.us-east-1.amazoncognito.com',
     TokenScopesArray : ['phone', 'email', 'profile','openid', 'aws.cognito.signin.user.admin'], // e.g.['phone', 'email', 'profile','openid', 'aws.cognito.signin.user.admin'],
     RedirectUriSignIn : 'https://s3.amazonaws.com/manhanttenduo/index.html',
     RedirectUriSignOut : 'https://s3.amazonaws.com/manhanttenduo/index.html',
     // IdentityProvider : '<TODO: add identity provider you want to specify>', // e.g. 'Facebook',
-    UserPoolId : 'us-east-1_T0q2XiW52', // Your user pool id here
+    UserPoolId : 'us-east-1_yMqorikLd', // Your user pool id here
     // AdvancedSecurityDataCollectionFlag : 'true', // e.g. true
         // Storage: 'new CookieStorage()' // OPTIONAL e.g. new CookieStorage(), to use the specified storage provided
 };
@@ -987,7 +975,9 @@ var auth = new AmazonCognitoIdentity.CognitoAuth(authData);
   auth.userhandler = {
     onSuccess: function(result) {
         alert("Sign in success");
-        console.log(idToken = result.getIdToken().getJwtToken())
+        var idToken = result.getIdToken().getJwtToken();
+        console.log(idToken);
+        userLoggedIn('cognito-idp.us-east-1.amazonaws.com/us-east-1_yMqorikLd', idToken);
     },
     onFailure: function(err) {
         alert(err);

@@ -45,7 +45,7 @@ apiGateway.core.apiGatewayClientFactory.newClient = function (simpleHttpClientCo
         if (authType === 'AWS_IAM') {
             clientToUse = sigV4Client;
         }
-
+        alert(request.headers);
         //Call the selected http client to make the request, returning a promise once the request is sent
         return clientToUse.makeRequest(request);
     };
