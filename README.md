@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 # Prerequisites
-For the JavaScript SDK to work your APIs need to support CORS. The Amazon API Gateway developer guide explains how to [setup CORS for an endpoint]().
+For the JavaScript SDK to work your APIs need to support CORS. (set through API gateway console)
 The generated SDK depends on third-party libraries. Include all of the scripts in your webpage
 
     <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
@@ -56,13 +55,14 @@ apigClient.methodName(params, body, additionalParams)
 
 #Using AWS IAM for authorization
 To initialize the SDK with AWS Credentials use the code below. Note, if you use credentials all requests to the API will be signed. This means you will have to set the appropiate CORS accept-* headers for each request.
+accesskey, secretkey and sessionToken can be obtained using Cognito and token given by Oauth requests.
 
 ```
 var apigClient = apigClientFactory.newClient({
     accessKey: 'ACCESS_KEY',
     secretKey: 'SECRET_KEY',
     sessionToken: 'SESSION_TOKEN', //OPTIONAL: If you are using temporary credentials you must include the session token
-    region: 'eu-west-1' // OPTIONAL: The region where the API is deployed, by default this parameter is set to us-east-1
+    region: 'us-east-1' // OPTIONAL: The region where the API is deployed, by default this parameter is set to us-east-1
 });
 ```
 
@@ -79,4 +79,4 @@ var apigClient = apigClientFactory.newClient({
 
 =======
 # ChatBot
->>>>>>> 4d3e7a84dcdc1bccd3a7cf65a1b234a9be54a8d9
+This project is a simple Chatbot assisting customers to select restaurants and making reservations.
