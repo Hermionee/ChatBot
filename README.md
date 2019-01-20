@@ -1,3 +1,5 @@
+# ChatBot
+This project is a simple Chatbot assisting customers to select restaurants and making reservations.
 # Prerequisites
 For the JavaScript SDK to work your APIs need to support CORS. (set through API gateway console)
 The generated SDK depends on third-party libraries. Include all of the scripts in your webpage
@@ -74,9 +76,3 @@ var apigClient = apigClientFactory.newClient({
     apiKey: 'API_KEY'
 });
 ```
-
-
-
-=======
-# ChatBot
-This project is a simple Chatbot assisting customers to select restaurants and making reservations.
